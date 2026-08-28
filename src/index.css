@@ -1,0 +1,92 @@
+@import "tailwindcss";
+
+@theme {
+  /* ── Warna inti (halaman 06) ───────────────────────── */
+  --color-bg: #eef7f8;
+  --color-surface: #e0eff1;
+  --color-text: #201e1d;
+  --color-divider: rgb(32 30 29 / 0.4);
+
+  /* ── Aksen aqua — ramp 100 → 900 ───────────────────── */
+  --color-accent-100: #eefafb;
+  --color-accent-200: #d1f1f4;
+  --color-accent-300: #a5e5ec;
+  --color-accent-400: #5fd0db;
+  --color-accent-500: #1fb6c4;
+  --color-accent: #0e9aa7; /* utama */
+  --color-accent-600: #0b8b97; /* hover */
+  --color-accent-700: #096d77; /* teks aksen di latar terang */
+  --color-accent-800: #0a535a;
+  --color-accent-900: #0b3e44;
+
+  /* ── Netral ────────────────────────────────────────── */
+  --color-neutral-300: #cfdfe1;
+  --color-neutral-400: #bab6b6;
+  --color-neutral-500: #90a6a9;
+  --color-neutral-600: #7d7979;
+  --color-neutral-700: #605d5d;
+  --color-neutral-900: #2d2b2b;
+
+  /* ── Tipografi (halaman 07) ────────────────────────── */
+  --font-sans: "Archivo Variable", system-ui, sans-serif;
+
+  --text-display: 3.375rem; /* 54px — hero login */
+  --text-page: 2rem; /* 32px — judul halaman */
+  --text-screen: 1.5625rem; /* 25px — judul layar */
+  --text-card: 1.25rem; /* 20px — judul kartu / panel chart */
+  --text-project: 1rem; /* 16px — nama project, paragraf hero */
+  --text-body: 0.9375rem; /* 15px — teks isi standar */
+  --text-form: 0.875rem; /* 14px — isian form & label tombol */
+  --text-task: 0.84375rem; /* 13.5px — judul kartu task */
+  --text-kicker: 0.8125rem; /* 13px — kicker, keterangan */
+  --text-label: 0.75rem; /* 12px — label field, header kolom kanban */
+  --text-eyebrow: 0.6875rem; /* 11px — header tabel, eyebrow */
+  --text-meta: 0.65625rem; /* 10.5px — meta kartu */
+
+  /* Radius 0 di semua elemen (aturan halaman 07) */
+  --radius-none: 0px;
+}
+
+@layer base {
+  html {
+    /* Judul & label UI selalu Archivo 800 rata kiri */
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: 1.55;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-weight: 800;
+    letter-spacing: -0.015em;
+    line-height: 1.12;
+  }
+
+  /* Tidak ada sudut membulat di mana pun */
+  * {
+    border-radius: 0;
+  }
+}
+
+@utility kicker {
+  font-size: var(--text-kicker);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-accent-700);
+}
+
+@utility eyebrow {
+  font-size: var(--text-eyebrow);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
