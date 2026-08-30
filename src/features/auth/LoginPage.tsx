@@ -6,7 +6,7 @@ import { Field, Input } from '@/shared/ui/Field'
 import { Logo } from '@/shared/ui/Logo'
 import { login } from './api'
 import { loginSchema, type LoginForm } from './schema'
-import { useAuthStore } from './store'
+import { mockLogin, useAuthStore } from './store'
 import { AuthError } from './types'
 
 export function LoginPage() {
@@ -107,6 +107,15 @@ export function LoginPage() {
           <p className="mt-4 text-kicker text-neutral-600">
             Akses hanya untuk staf internal. Hubungi admin IT bila akun terkunci.
           </p>
+
+          {/* DEV: Mock login button — hapus saat backend ready */}
+          <button
+            type="button"
+            onClick={mockLogin}
+            className="mt-6 w-full rounded border border-dashed border-neutral-400 bg-neutral-100 px-3 py-2 text-kicker text-neutral-600 hover:bg-neutral-200"
+          >
+            (Dev) Mock Login
+          </button>
         </div>
       </section>
     </div>

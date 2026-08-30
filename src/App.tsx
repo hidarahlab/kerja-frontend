@@ -5,6 +5,7 @@ import { AppShell } from '@/app/layout/AppShell'
 import type { NavKey } from '@/app/layout/Sidebar'
 import { LoginPage } from '@/features/auth/LoginPage'
 import { useAuthStore } from '@/features/auth/store'
+import { ProjectListPage } from '@/features/projects/ProjectListPage'
 
 const PAGE = {
   dashboard: { kicker: 'Ringkasan penjualan', title: 'Dashboard' },
@@ -28,11 +29,14 @@ export default function App() {
       title={page.title}
       headerAside={format(new Date(), 'EEEE, d MMMM yyyy', { locale: id })}
     >
-      <div className="flex h-full items-center justify-center p-10">
-        <p className="text-body text-neutral-600">
-          Konten <span className="font-extrabold text-text">{page.title}</span> menyusul.
-        </p>
-      </div>
+      {active === 'task' && <ProjectListPage />}
+      {active === 'dashboard' && (
+        <div className="flex h-full items-center justify-center p-10">
+          <p className="text-body text-neutral-600">
+            Dashboard menyusul.
+          </p>
+        </div>
+      )}
     </AppShell>
   )
 }
