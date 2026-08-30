@@ -3,9 +3,10 @@ import type { Project } from '../types'
 
 type ProjectTableProps = {
   projects: Project[]
+  onSelectProject?: (projectId: string) => void
 }
 
-export function ProjectTable({ projects }: ProjectTableProps) {
+export function ProjectTable({ projects, onSelectProject }: ProjectTableProps) {
   return (
     <div className="overflow-x-auto">
       <table className="w-full">
@@ -19,7 +20,7 @@ export function ProjectTable({ projects }: ProjectTableProps) {
         </thead>
         <tbody>
           {projects.map((project) => (
-            <ProjectRow key={project.id} project={project} />
+            <ProjectRow key={project.id} project={project} onClick={() => onSelectProject?.(project.id)} />
           ))}
         </tbody>
       </table>

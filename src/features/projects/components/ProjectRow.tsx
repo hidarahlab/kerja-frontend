@@ -6,11 +6,12 @@ import type { Project } from '../types'
 
 type ProjectRowProps = {
   project: Project
+  onClick?: () => void
 }
 
-export function ProjectRow({ project }: ProjectRowProps) {
+export function ProjectRow({ project, onClick }: ProjectRowProps) {
   return (
-    <tr className="border-b border-divider hover:bg-accent-100">
+    <tr className="border-b border-divider hover:bg-accent-100 cursor-pointer" onClick={onClick}>
       <td className="px-6 py-4">
         <div>
           <p className="text-form font-extrabold text-text">{project.name}</p>

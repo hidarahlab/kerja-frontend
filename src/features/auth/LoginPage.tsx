@@ -1,29 +1,61 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
+import { Eye, EyeOff } from 'lucide-react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Button } from '@/shared/ui/Button'
 import { Field, Input } from '@/shared/ui/Field'
 import { Logo } from '@/shared/ui/Logo'
 import { login } from './api'
 import { loginSchema, type LoginForm } from './schema'
-import { mockLogin, useAuthStore } from './store'
+import { useAuthStore } from './store'
 import { AuthError } from './types'
+
+const STORED_EMAIL_KEY = 'kerja:stored-email'
 
 export function LoginPage() {
   const signIn = useAuthStore((state) => state.signIn)
+  const [showPassword, setShowPassword] = useState(false)
 
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
+    getValues,
   } = useForm<LoginForm>({
     resolver: zodResolver(loginSchema),
     defaultValues: { email: '', password: '', remember: false },
   })
 
+  // Restore email dari localStorage saat mount
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem(STORED_EMAIL_KEY)
+      if (stored) setValue('email', stored)
+    } catch {
+      // localStorage tidak tersedia
+    }
+  }, [setValue])
+
   const mutation = useMutation({
     mutationFn: login,
-    onSuccess: signIn,
+    onSuccess: (data, variables) => {
+      if (variables.remember) {
+        try {
+          localStorage.setItem(STORED_EMAIL_KEY, variables.email)
+        } catch {
+          // localStorage tidak tersedia
+        }
+      } else {
+        try {
+          localStorage.removeItem(STORED_EMAIL_KEY)
+        } catch {
+          // localStorage tidak tersedia
+        }
+      }
+      signIn(data)
+    },
   })
 
   const serverError =
@@ -62,14 +94,25 @@ export function LoginPage() {
             </Field>
 
             <Field label="Kata sandi" htmlFor="password" error={errors.password?.message}>
-              <Input
-                id="password"
-                type="password"
-                autoComplete="current-password"
-                placeholder="••••••••"
-                aria-invalid={Boolean(errors.password)}
-                {...register('password')}
-              />
+              <div className="relative">
+                <Input
+                  id="password"
+                  type={showPassword ? 'text' : 'password'}
+                  autoComplete="current-password"
+                  placeholder="••••••••"
+                  aria-invalid={Boolean(errors.password)}
+                  className="pr-12"
+                  {...register('password')}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-neutral-600 hover:text-text"
+                  aria-label={showPassword ? 'Sembunyikan kata sandi' : 'Tampilkan kata sandi'}
+                >
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+              </div>
             </Field>
 
             <div className="flex items-center justify-between">
@@ -107,15 +150,6 @@ export function LoginPage() {
           <p className="mt-4 text-kicker text-neutral-600">
             Akses hanya untuk staf internal. Hubungi admin IT bila akun terkunci.
           </p>
-
-          {/* DEV: Mock login button — hapus saat backend ready */}
-          <button
-            type="button"
-            onClick={mockLogin}
-            className="mt-6 w-full rounded border border-dashed border-neutral-400 bg-neutral-100 px-3 py-2 text-kicker text-neutral-600 hover:bg-neutral-200"
-          >
-            (Dev) Mock Login
-          </button>
         </div>
       </section>
     </div>
