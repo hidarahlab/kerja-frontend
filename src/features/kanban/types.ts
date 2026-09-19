@@ -7,6 +7,10 @@ export type Task = {
   date: Date
   assignee: { initials: string; name: string }
   status: TaskStatus
+  myDay: boolean
+  /** "Telat X hari" / "Terlambat X hari" — null kalau tidak telat. Dihitung
+   * sekali di KanbanBoard dari data API, lihat src/shared/lib/taskLateness.ts. */
+  lateLabel: string | null
 }
 
 export type Column = {

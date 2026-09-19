@@ -7,10 +7,11 @@ import { LoginPage } from '@/features/auth/LoginPage'
 import { useAuthStore } from '@/features/auth/store'
 import { ProjectListPage } from '@/features/projects/ProjectListPage'
 import { KanbanPage } from '@/features/kanban/KanbanPage'
+import { DashboardPage } from '@/features/dashboard/DashboardPage'
 import { useProject } from '@/shared/hooks/useProjects'
 
 const PAGE = {
-  dashboard: { kicker: 'Ringkasan penjualan', title: 'Dashboard' },
+  dashboard: { kicker: 'Ringkasan kerja', title: 'Dashboard' },
   task: { kicker: 'Manajemen pekerjaan', title: 'Project' },
 } satisfies Record<NavKey, { kicker: string; title: string }>
 
@@ -36,19 +37,27 @@ export default function App() {
       }}
       kicker={page.kicker}
       title={selectedProjectId ? projectTitle : page.title}
-      headerAside={format(new Date(), 'EEEE, d MMMM yyyy', { locale: id })}
+      headerAside={
+        <div className="text-right">
+          <p>{format(new Date(), 'EEEE, d MMMM yyyy', { locale: id })}</p>
+          {active === 'dashboard' && (
+            <p className="mt-0.5 font-bold text-accent-700">My Day & Status Project</p>
+          )}
+        </div>
+      }
     >
       {active === 'task' && selectedProjectId ? (
-        <KanbanPage projectId={selectedProjectId} />
+        <KanbanPage projectId={selectedProjectId} onBack={() => setSelectedProjectId(null)} />
       ) : active === 'task' ? (
         <ProjectListPage onSelectProject={setSelectedProjectId} />
       ) : null}
       {active === 'dashboard' && (
-        <div className="flex h-full items-center justify-center p-10">
-          <p className="text-body text-neutral-600">
-            Dashboard menyusul.
-          </p>
-        </div>
+        <DashboardPage
+          onNavigateToProject={(projectId) => {
+            setActive('task')
+            setSelectedProjectId(projectId)
+          }}
+        />
       )}
     </AppShell>
   )

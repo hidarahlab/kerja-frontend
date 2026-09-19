@@ -7,7 +7,7 @@ export type NavKey = 'dashboard' | 'task'
 
 const MENU: { key: NavKey; label: string }[] = [
   { key: 'dashboard', label: 'Dashboard' },
-  { key: 'task', label: 'Task' },
+  { key: 'task', label: 'Project' },
 ]
 
 type SidebarProps = {

@@ -1,7 +1,15 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { tasksApi, type TaskDTO } from '@/shared/api/tasks'
+import {
+  tasksApi,
+  type TaskDTO,
+  type TaskChecklistDTO,
+  type TaskCommentDTO,
+  type TaskActivityDTO,
+  type TaskAttachmentDTO,
+} from '@/shared/api/tasks'
 
 const TASKS_QUERY_KEY = ['tasks']
+const TASK_DETAILS_KEY = ['task-details']
 
 export function useTasks(page = 0, size = 50) {
   return useQuery({
@@ -96,13 +104,38 @@ export function useUpdateTask() {
   })
 }
 
-export function useDeleteTask() {
-  const queryClient = useQueryClient()
+// Sengaja tidak ada useDeleteTask: task yang sudah dibuat tidak boleh dihapus
+// dari aplikasi. tasksApi.delete masih ada karena endpoint-nya masih hidup di
+// backend, tapi tidak disediakan hook-nya supaya tidak gampang dipasang ke UI.
 
-  return useMutation({
-    mutationFn: (id: number) => tasksApi.delete(id),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: TASKS_QUERY_KEY })
-    },
+export function useTaskChecklist(taskId: number) {
+  return useQuery({
+    queryKey: [...TASK_DETAILS_KEY, 'checklist', taskId],
+    queryFn: () => tasksApi.getChecklist(taskId),
+    enabled: !!taskId,
+  })
+}
+
+export function useTaskComments(taskId: number) {
+  return useQuery({
+    queryKey: [...TASK_DETAILS_KEY, 'comments', taskId],
+    queryFn: () => tasksApi.getComments(taskId),
+    enabled: !!taskId,
+  })
+}
+
+export function useTaskActivities(taskId: number) {
+  return useQuery({
+    queryKey: [...TASK_DETAILS_KEY, 'activities', taskId],
+    queryFn: () => tasksApi.getActivities(taskId),
+    enabled: !!taskId,
+  })
+}
+
+export function useTaskAttachments(taskId: number) {
+  return useQuery({
+    queryKey: [...TASK_DETAILS_KEY, 'attachments', taskId],
+    queryFn: () => tasksApi.getAttachments(taskId),
+    enabled: !!taskId,
   })
 }

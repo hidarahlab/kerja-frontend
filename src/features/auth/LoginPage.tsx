@@ -186,9 +186,7 @@ function BrandPanel() {
 
       <div>
         <hr className="border-t border-bg/40" />
-        <div className="mt-4 grid grid-cols-3 text-bg/80">
-          <span className="eyebrow">Dashboard</span>
-          <span className="eyebrow">Task</span>
+        <div className="mt-4 text-bg/80">
           <span className="eyebrow">V1.0 — 2026</span>
         </div>
       </div>

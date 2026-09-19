@@ -21,7 +21,7 @@ export function AvatarStack({ initials, max = 3, size = 'md' }: AvatarStackProps
         <div
           key={initial}
           className={cn(
-            'flex items-center justify-center bg-accent text-bg font-extrabold border border-bg',
+            'flex items-center justify-center rounded-full bg-accent text-bg font-extrabold border border-bg',
             sizeClass,
           )}
         >
@@ -31,7 +31,7 @@ export function AvatarStack({ initials, max = 3, size = 'md' }: AvatarStackProps
       {hidden > 0 ? (
         <div
           className={cn(
-            'flex items-center justify-center bg-neutral-400 text-bg font-bold border border-bg',
+            'flex items-center justify-center rounded-full bg-neutral-400 text-bg font-bold border border-bg',
             sizeClass,
           )}
         >

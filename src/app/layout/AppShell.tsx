@@ -19,11 +19,14 @@ export function AppShell({
   children,
 }: AppShellProps) {
   return (
-    <div className="flex min-h-dvh bg-bg">
+    // h-dvh (bukan min-h-dvh) + overflow-hidden: bingkai aplikasi dipatok setinggi
+    // viewport dan tidak ikut memanjang. Konten di bawah header yang scroll
+    // sendiri (lihat div terakhir), bukan seluruh halaman/document.
+    <div className="flex h-dvh overflow-hidden bg-bg">
       <Sidebar active={active} onNavigate={onNavigate} />
 
-      <main className="flex min-w-0 flex-1 flex-col">
-        <header className="flex items-start justify-between gap-6 border-b border-divider px-8 py-5">
+      <main className="flex min-w-0 flex-1 flex-col overflow-hidden">
+        <header className="flex shrink-0 items-start justify-between gap-6 border-b border-divider px-8 py-5">
           <div>
             <p className="kicker">{kicker}</p>
             <h1 className="mt-1 text-screen">{title}</h1>
@@ -33,7 +36,10 @@ export function AppShell({
           ) : null}
         </header>
 
-        <div className="min-w-0 flex-1">{children}</div>
+        {/* min-h-0 wajib di sini — tanpanya flex child ini menolak mengecil di
+            bawah tinggi kontennya sendiri, sehingga overflow-y-auto tidak
+            pernah kepakai dan scroll balik lagi ke seluruh halaman. */}
+        <div className="min-h-0 min-w-0 flex-1 overflow-y-auto">{children}</div>
       </main>
     </div>
   )

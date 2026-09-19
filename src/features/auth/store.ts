@@ -29,15 +29,3 @@ export const useAuthStore = create<AuthState>()(
 )
 
 export const useIsAuthenticated = () => useAuthStore((state) => state.token !== null)
-
-/** Mock untuk development — hapus saat backend ready. */
-export const mockLogin = () => {
-  useAuthStore.setState({
-    token: 'mock-token-' + Date.now(),
-    user: {
-      name: 'Admin Kantor',
-      role: 'Administrator',
-      initials: 'AK',
-    },
-  })
-}

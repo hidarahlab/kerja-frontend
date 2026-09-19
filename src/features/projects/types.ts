@@ -7,4 +7,6 @@ export type Project = {
   progress: number
   assignees: Array<{ initials: string; name: string }>
   deadline: Date
+  /** "ACTIVE" atau "COMPLETED" — lihat src/shared/lib/projectStatus.ts. */
+  status: string
 }

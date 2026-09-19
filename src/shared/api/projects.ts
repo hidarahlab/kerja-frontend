@@ -4,6 +4,7 @@ export interface AssigneeDTO {
   id: number
   name: string
   initials: string
+  position?: string
 }
 
 export interface ProjectDTO {
@@ -36,6 +37,14 @@ export const projectsApi = {
     ),
 
   getById: (id: number) => apiRequest<ProjectDTO>(`/projects/${id}`),
+
+  /**
+   * Kandidat penanggung jawab task di project ini — karyawan aktif perusahaan
+   * pemilik project. Dipakai langsung sebagai isi dropdown supaya pilihan yang
+   * tampil sama persis dengan yang diterima backend saat task disimpan.
+   */
+  getMembers: (projectId: number) =>
+    apiRequest<AssigneeDTO[]>(`/projects/${projectId}/members`),
 
   getByCompany: (companyId: number, page = 0, size = 10) =>
     apiRequest<ProjectsPage>(

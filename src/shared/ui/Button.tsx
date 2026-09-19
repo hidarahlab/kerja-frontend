@@ -2,7 +2,7 @@ import type { ComponentProps } from 'react'
 import { cn } from '@/shared/lib/cn'
 
 type ButtonProps = ComponentProps<'button'> & {
-  variant?: 'primary' | 'outline'
+  variant?: 'primary' | 'outline' | 'secondary'
 }
 
 export function Button({ variant = 'primary', className, ...props }: ButtonProps) {
@@ -14,6 +14,7 @@ export function Button({ variant = 'primary', className, ...props }: ButtonProps
         'disabled:cursor-not-allowed disabled:opacity-55',
         variant === 'primary' && 'bg-accent text-bg hover:bg-accent-600',
         variant === 'outline' && 'bg-transparent text-text hover:bg-accent-100',
+        variant === 'secondary' && 'bg-neutral-100 text-text hover:bg-neutral-200',
         className,
       )}
       {...props}
